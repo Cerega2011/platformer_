@@ -1,0 +1,50 @@
+/* .body {
+  background-color: black;
+} */
+
+#canvas {
+    width: 100vw;
+    height: 100vh;
+}
+
+.install-screen {
+    height: 100vh;
+    display: none;
+}
+
+.icon {
+    display: block;
+    width: 50%;
+    margin: auto;
+    margin-top: 45%;
+}
+
+.subtitle {
+    font-size: x-large;
+    width: 100%;
+    text-align: center;
+}
+
+.wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.download-button {
+    padding: 15px 30px;
+    background-color: black;
+    color: aliceblue;
+    font-size: 21px;
+}
+
+@media (max-device-width: 375px) {
+    .install-screen {
+        display: block;
+    }
+}
+
+@media all and (display-mode: fullscreen) {
+    .install-screen {
+        display: none;
+    }
+}
