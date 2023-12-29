@@ -37,7 +37,7 @@
     font-size: 21px;
 }
 
-@media (max-device-width: 375px) {
+@media (max-device-width: 600px) {
     .install-screen {
         display: block;
     }
