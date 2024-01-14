@@ -9,6 +9,12 @@ ground.addCostume("./images/ground.png");
 ground.y = stage.height;
 ground.layer = 3;
 
+let distance = 0
+
+let acceleration = 0.1
+
+let speed = 5
+
 let player = new Sprite();
 player.addCostume("./images/p1.png");
 player.addCostume("./images/p2.png");
@@ -96,16 +102,30 @@ function playerCicle() {
         ySpeed = -16;
         isJump = true;
     }
+
     if (game.keyPressed('space') && isJump == false) {
         ySpeed = -16;
         isJump = true;
     }
+    if (game.mouseDown(mouse) && isGame == false) {
+        isGame = true
+        player.hidden = false
+        gameOver.hidden = true
+        player.y = 0
+        player.x = 400
+        score = 0
+        distance = 0
+        acceleration = 0.1
+        speed = 5
+    }
     ySpeed += 0.8;
     player.y += ySpeed;
+
     if (player.touchSprite(dino)) {
         isGame = false
         player.hidden = true
         gameOver.hidden = false
+
     }
 }
 
@@ -123,12 +143,12 @@ function fenceCicle() {
         fenceClone.x = stage.width + 50
         fenceClone.hidden = false
         stage.forever(function () {
-            fenceClone.x -= 5
+            fenceClone.x -= speed
             if (fenceClone.touchSprite((dino))) {
                 fenceClone.switchCostume(1)
             }
             if (fenceClone.touchSprite((player))) {
-                player.x -= 5
+                player.x -= speed
             }
             if (fenceClone.x < 0) {
                 fenceClone.delete()
@@ -136,6 +156,7 @@ function fenceCicle() {
                     score += 1
                 }
             }
+
 
         })
 
@@ -195,6 +216,13 @@ function drawScore(context) {
     context.fillText("ваш счет " + score, 50, stage.height - 50)
 }
 
+function changeSpeed() {
+    distance += 0.1
+    speed += distance
+
+}
+
+stage.forever(changeSpeed, 3000)
 stage.forever(cloudCicle, 1000)
 stage.forever(treeCicle, 1500)
 stage.forever(bushCicle, 2000)
