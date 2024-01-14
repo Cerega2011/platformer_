@@ -61,9 +61,8 @@ tree.layer = 2
 
 
 
-
 let cloud = new Sprite()
-cloud.addCostume('../images/tree.png')
+cloud.addCostume('../images/cloud.png')
 cloud.hidden = true
 cloud.size = 60
 cloud.y = stage.height - 350;
@@ -72,6 +71,9 @@ cloud.layer = 1
 let gameOver = new Sprite()
 gameOver.addCostume("../images/gameOver.png")
 gameOver.hidden = true
+gameOver.layer = 5
+
+
 
 let isJump = false
 
@@ -82,6 +84,7 @@ let score = 0
 let isGame = true
 
 let mouse = new Mouse()
+
 
 function playerCicle() {
     if (player.touchSprite(ground)) {
@@ -102,7 +105,7 @@ function playerCicle() {
     if (player.touchSprite(dino)) {
         isGame = false
         player.hidden = true
-        gameOver = false
+        gameOver.hidden = false
     }
 }
 
@@ -114,10 +117,92 @@ function dinoAnimation() {
     dino.nextCostume()
 }
 
+function fenceCicle() {
+    if (game.getRandom(0, 10 > 3)) {
+        let fenceClone = fence.createClone()
+        fenceClone.x = stage.width + 50
+        fenceClone.hidden = false
+        stage.forever(function () {
+            fenceClone.x -= 5
+            if (fenceClone.touchSprite((dino))) {
+                fenceClone.switchCostume(1)
+            }
+            if (fenceClone.touchSprite((player))) {
+                player.x -= 5
+            }
+            if (fenceClone.x < 0) {
+                fenceClone.delete()
+                if (isGame == true) {
+                    score += 1
+                }
+            }
+
+        })
+
+    }
+}
+
+function bushCicle() {
+    if (game.getRandom(0, 1) == 0) {
+        let bushClone = bush.createClone()
+        bushClone.x = stage.width + 50
+        bushClone.hidden = false
+        bushClone.forever(function () {
+            bushClone.x -= 2
+            if (bushClone.x < -150) {
+                bushClone.delete()
+            }
+        })
+    }
+}
+
+function treeCicle() {
+    if (game.getRandom(0, 5) == 0) {
+        let treeClone = tree.createClone()
+        treeClone.x = stage.width + 50
+        treeClone.hidden = false
+        treeClone.forever(function () {
+            treeClone.x -= 2
+            if (treeClone.x < -150) {
+                treeClone.delete()
+
+            }
+        })
+    }
+}
+
+function cloudCicle() {
+    if (game.getRandom(0, 1) == 0) {
+        let cloudClone = cloud.createClone()
+        cloudClone.size = game.getRandom(25, 50)
+        cloudClone.x = stage.width + 50
+        cloudClone.y = game.getRandom(50, stage.height - 380)
+        cloudClone.hidden = false
+
+        cloudClone.forever(function () {
+            cloudClone.x -= cloudClone.size / 15
+
+            if (cloudClone.x < -150) {
+                cloudClone.delete()
+            }
+        })
+    }
+}
+
+function drawScore(context) {
+    context.font = "50px Arial"
+    context.fillStyle = "#212121"
+    context.fillText("ваш счет " + score, 50, stage.height - 50)
+}
+
+stage.forever(cloudCicle, 1000)
+stage.forever(treeCicle, 1500)
+stage.forever(bushCicle, 2000)
 stage.forever(playerCicle)
 stage.forever(playerAnimation, 50)
 stage.forever(dinoAnimation, 100)
-
+stage.forever(fenceCicle, 700)
+stage.pen(drawScore, 7)
 game.run()
 
 const downloadButton = document.querySelector(".download-button");
